@@ -1,0 +1,19 @@
+<p>todo-add works!</p>
+<ul class="heroes">
+    <li *ngFor="let todo of todos">
+        <a routerLink="/detail/{{todo.id}}">
+            <span class="badge">{{todo.id}}</span> {{todo.title}}
+        </a>
+        <button class="delete" title="delete todo"
+                (click)="delete(todo)">x</button>
+    </li>
+</ul>
+<div>
+    <label>Todo title:
+      <input #todoTitle />
+    </label>
+    <!-- (click) passes input value to add() and then clears the input -->
+    <button (click)="add(todoTitle.value); todoTitle.value=''">
+      add
+    </button>
+</div>

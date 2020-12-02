@@ -6,14 +6,15 @@ import { TodoService }  from '../todo.service';
 import { Todo } from '../todo';
 
 @Component({
-  selector: 'app-todo-details',
-  templateUrl: './todo-details.component.html',
-  styleUrls: ['./todo-details.component.css']
+  selector: 'app-todo-edit',
+  templateUrl: './todo-edit.component.html',
+  styleUrls: ['./todo-edit.component.css']
 })
-export class TodoDetailsComponent implements OnInit {
+export class TodoEditComponent implements OnInit {
 
   @Input()
   todo!: Todo;
+
 
   constructor(
     private todoService: TodoService, 
@@ -22,6 +23,7 @@ export class TodoDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getTodo();
   }
 
   getTodo(): void {
@@ -37,5 +39,6 @@ export class TodoDetailsComponent implements OnInit {
     this.todoService.updateTodo(this.todo)
       .subscribe(() => this.goBack());
   }
+
 
 }

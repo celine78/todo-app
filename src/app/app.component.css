@@ -1,7 +1,6 @@
 /* A simple, css only, (some-what) responsive menu 
 https://codepen.io/jurbank/pen/veGnb
 */
-   
   .wrap {
     display: inline-block;
     margin-left: 40px;
@@ -116,6 +115,16 @@ https://codepen.io/jurbank/pen/veGnb
 
   .logo {
     margin-top: 10px;
+  }
+
+  .bfh_logo {
+      margin-bottom: 20px;
+  }
+
+  .footer {
+    clear: both;
+    position: sticky;
+    margin-top: 100%;
   }
   
   @media only screen and (max-width: 600px) {

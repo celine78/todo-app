@@ -4,22 +4,22 @@ import { Todo } from '../todo';
 import { TodoService } from '../todo.service'
 
 @Component({
-  selector: 'app-todos',
-  templateUrl: './todos.component.html',
-  styleUrls: ['./todos.component.css']
+  selector: 'app-todo-add',
+  templateUrl: './todo-add.component.html',
+  styleUrls: ['./todo-add.component.css']
 })
-export class TodosComponent implements OnInit {
-
-  constructor(private todoService: TodoService) { }
-
-  ngOnInit(): void {
-    this.getTodos();
-  }
+export class TodoAddComponent implements OnInit {
 
   todos: Todo[] = [];
+  
+  constructor(private todoService: TodoService) { }
 
   getTodos(): void {
     this.todoService.getTodos().subscribe(todos => this.todos = todos);
+  }
+
+  ngOnInit(): void {
+    this.getTodos();
   }
 
   add(title: string): void {

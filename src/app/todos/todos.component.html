@@ -1,3 +1,19 @@
 <div>
-    <p>todos works!</p>
+    <p>
+        My Todo's
+    </p>
+</div>
+<div>
+    <ul>
+        <li>
+            Todo
+        </li>
+    </ul>
+</div>
+<div class="grid grid-pad">
+    <a *ngFor="let todo of todos" class="col-1-4" routerLink="/todo-detail/{{todo.id}}">
+        <div class="module todo">
+            <h4>{{todo.title}}</h4>
+        </div>
+    </a>
 </div>
