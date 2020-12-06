@@ -1,41 +1,4 @@
-<header>
-  <div class="jumbotron jumbotron-fluid text-center">
-    <div class="row">
-      <div class="col-md-3">
-        <!--https://codepen.io/jurbank/pen/veGnb-->
-        <div class="wrap">
-          <nav>
-            <ul class="primary">
-              <li>
-                <a routerLink="/todos">To Do's</a>
-                <ul class="sub">
-                  <li><a routerLink="/todos">View</a></li>
-                  <li><a routerLink="/todo-add">Add</a></li>
-                  <li><a routerLink="/todo-edit/:id">Edit</a></li>
-                </ul>
-              </li>
-              <li>
-                <a href="">My Account</a>
-                <ul class="sub">
-                  <li><a href="">Login</a></li>
-                  <li><a href="">Logout</a></li>
-                </ul>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <h1 class="display-3 text-dark">TO DO'S</h1>
-      </div>
-      <div class="col-md-3 logo">
-        <a routerLink="/todos">
-          <img class="companyLogo" src="../assets/pngwing.com.png" alt="company logo" width="150">
-        </a>
-      </div>
-    </div>
-  </div>
-</header>
+<app-header></app-header>
 <main>
   <router-outlet></router-outlet>
 </main>
@@ -45,8 +8,8 @@
       <div class="col">
         <p>
           Made with <img class="heart" src="../assets/heart.ico" alt="heart icon"> 
-          by Céline Hüttenmoser with Angular version 11.0.1. <br>
-          © Céline Hüttenmoser. Produced for the module JavaScript Applications at the BFH Fall Term 2020.
+          in Bern using <a href="https://angular.io">Angular</a> version 11.0.1. <br>
+          © Céline Hüttenmoser. Created for the module JavaScript Applications at the BFH Fall Term 2020.
         </p>
       </div>
       <div class="col-md-auto">

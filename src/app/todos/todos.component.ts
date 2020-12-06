@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 import { Todo } from '../todo';
 import { TodoService } from '../todo.service'
@@ -10,7 +13,7 @@ import { TodoService } from '../todo.service'
 })
 export class TodosComponent implements OnInit {
 
-  constructor(private todoService: TodoService) { }
+  constructor(private todoService: TodoService, private matButtonModule: MatButtonModule, private matIconModule: MatIconModule, private router: Router) { }
 
   ngOnInit(): void {
     this.getTodos();
@@ -36,4 +39,11 @@ export class TodosComponent implements OnInit {
     this.todoService.deleteTodo(todo).subscribe();
   }
 
+  edit(todo: Todo): void {
+    this.router ? this.router.navigate([`/todo-edit/${todo.id}`]) : console.log('No router found');
+  }
+
+  changeImp(todo: Todo): void {
+    todo.important ? todo.important = false : todo.important = true;
+  }
 }

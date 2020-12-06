@@ -12,9 +12,6 @@ import { Todo } from '../todo';
 })
 export class TodoDetailsComponent implements OnInit {
 
-  @Input()
-  todo!: Todo;
-
   constructor(
     private todoService: TodoService, 
     private location: Location, 
@@ -22,11 +19,14 @@ export class TodoDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getTodo();
   }
 
+  @Input() todo?: Todo;
+
   getTodo(): void {
-    const id = 1;
-    this.todoService.getTodo(id).subscribe(todo => this.todo = todo);
+    let id = this.route.snapshot.paramMap.get('id');
+    id ? this.todoService.getTodo(+id).subscribe(todo => this.todo = todo) : console.log('');
   }
 
   goBack(): void {
@@ -34,8 +34,8 @@ export class TodoDetailsComponent implements OnInit {
   }
 
   save(): void {
-    this.todoService.updateTodo(this.todo)
-      .subscribe(() => this.goBack());
+    this.todo ? this.todoService.updateTodo(this.todo)
+      .subscribe(() => this.goBack()) : console.log('No todo to save.');
   }
 
 }

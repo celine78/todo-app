@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>
+    <span>{{title}}</span>
+    <hr class="line">
+</h2>
+
+<div mat-dialog-content class="body">
+        <span>{{body}}</span>
+</div>
+
+<div mat-dialog-actions>
+        <button type="button" class="btn btn-outline-secondary btnCustom" (click)="close()">{{btnTextLeft}}</button>
+        <button type="button" class="btn btn-outline-danger" (click)="delete()">{{btnTextRight}}</button>
+</div>

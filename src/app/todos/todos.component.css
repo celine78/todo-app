@@ -1,0 +1,58 @@
+.card-size {
+    width: 70em;
+    height: 5em;
+    position: relative; 
+    border-radius: 2.3em;
+    border-left: none;
+    border-right: none;
+    margin: 0 auto;
+    margin-top: 2em;
+}
+
+.todo-text{
+    text-align: left;
+    margin-left: 1.5em;
+    font-weight: normal;
+    font-size: 1.3em;
+
+}
+
+button.mat-icon-button {
+    margin-left: 0.8em;
+    border-width: 0.2em;
+    display: inline-block;
+    align-items: right;
+    margin-left: 2.8em;
+}
+
+.mat-icon{
+    position: relative;
+    font-size:2.2em;
+    vertical-align: middle;
+    margin-right: 0.2em;
+    margin-bottom: 0.2em;
+
+}
+
+.line{
+    width: 90%;
+    margin-top: 3em;
+    margin-bottom: 3em;
+    border-width: 0.2em;
+    border-radius: 0.2em;
+}
+
+.title-text{
+    text-align: center;
+    font-size: 2em;
+    font-weight: lighter;
+}
+
+.starIcon{
+    color: rgb(69, 174, 216);
+}
+
+.removeIcon{
+    color: rgb(231, 45, 107)
+}
+

@@ -1,7 +1,12 @@
-<p>todo-add works!</p>
-<ul class="heroes">
+<div>
+  <hr class="line">
+  <h5 class="title-text">Edit a Todo</h5>
+  <hr class="line">
+</div>
+
+<ul class="todos">
     <li *ngFor="let todo of todos">
-        <a routerLink="/detail/{{todo.id}}">
+        <a routerLink="/todo-detail/{{todo.id}}">
             <span class="badge">{{todo.id}}</span> {{todo.title}}
         </a>
         <button class="delete" title="delete todo"

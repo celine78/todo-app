@@ -1,19 +1,44 @@
 <div>
-    <p>
-        My Todo's
-    </p>
+    <hr class="line">
+    <h5 class="title-text">My Todo's List</h5>
+    <hr class="line">
 </div>
-<div>
-    <ul>
-        <li>
-            Todo
-        </li>
-    </ul>
-</div>
-<div class="grid grid-pad">
+<!--<a *ngFor="let todo of todos" class="col-1-4" routerLink="/todo-detail/{{todo.id}}">-->
+
+<a *ngFor="let todo of todos">
+    <div class="card card-size">
+        <div class="module todo">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-9">
+                        <h5 class="todo-text">{{todo.title}}</h5>
+                    </div>
+                    <div class="col-md-auto" >
+                        <button *ngIf="todo.important" mat-icon-button class="starIcon"  aria-label="Star todo" (click)="changeImp(todo)">
+                            <mat-icon>star</mat-icon>
+                        </button>
+                        <button *ngIf="!todo.important" mat-icon-button color="basic" aria-label="Star todo" (click)="changeImp(todo)">
+                            <mat-icon>star</mat-icon>
+                        </button>
+                        <button mat-icon-button aria-label="Edit todo" (click)="edit(todo)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button class="removeIcon" aria-label="Remove todo" (click)="delete(todo)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+
+
+
+<!--<div class="grid grid-pad">
     <a *ngFor="let todo of todos" class="col-1-4" routerLink="/todo-detail/{{todo.id}}">
         <div class="module todo">
             <h4>{{todo.title}}</h4>
         </div>
     </a>
-</div>
+</div>-->
