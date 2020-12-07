@@ -3,7 +3,8 @@
 }
 
 .footer {
-  clear: both;
   position: sticky;
-  margin-top: 100%;
+  margin-top: 50%;
+  margin-left: 2em;
+  margin-right: 2em;
 }

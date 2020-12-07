@@ -1,10 +1,63 @@
 <div>
   <hr class="line">
-  <h5 class="title-text">Edit a Todo</h5>
+  <h5 class="title-text">Add a Todo</h5>
   <hr class="line">
 </div>
 
-<ul class="todos">
+<h6 class="titel-form">ENTER A NEW TODO</h6>
+
+<form class="form-template">
+  <div class="form-group row">
+    <label for="inputEmail3MD" class="col-sm-2 col-form-label">TITLE</label>
+    <div class="col-sm-10">
+      <div class="md-form mt-0">
+        <input mdbInput type="email" class="form-control" id="inputEmail3MD" placeholder="TITLE">
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputPassword3MD" class="col-sm-2 col-form-label">DUE DATE</label>
+    <div class="col-sm-10">
+      <div class="md-form mt-0">
+        <input mdbInput type="password" class="form-control" id="inputPassword3MD" placeholder="Password">
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputPassword3MD" class="col-sm-2 col-form-label">CATEGORY</label>
+    <div class="col-sm-10">
+      <div class="md-form mt-0">
+        <input mdbInput type="password" class="form-control" id="inputPassword3MD" placeholder="Password">
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputPassword3MD" class="col-sm-2 col-form-label">IMPORTANT</label>
+    <div class="col-sm-10">
+      <div class="md-form mt-0">
+        <input mdbInput type="password" class="form-control" id="inputPassword3MD" placeholder="Password">
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputPassword3MD" class="col-sm-2 col-form-label">NOTE</label>
+    <div class="col-sm-10">
+      <div class="md-form mt-0">
+        <input mdbInput type="password" class="form-control" id="inputPassword3MD" placeholder="Password">
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-md-12">
+      <button class="btn btn-outline-dark buttons-row" type="submit" mdbBtn>Back</button>
+      <button class="btn btn-outline-primary buttons-row" type="submit" mdbBtn>Save</button>
+    </div>
+    <div class="col-md-12">
+    </div>
+  </div>
+</form>
+
+<!--<ul class="todos">
     <li *ngFor="let todo of todos">
         <a routerLink="/todo-detail/{{todo.id}}">
             <span class="badge">{{todo.id}}</span> {{todo.title}}
@@ -16,9 +69,27 @@
 <div>
     <label>Todo title:
       <input #todoTitle />
-    </label>
-    <!-- (click) passes input value to add() and then clears the input -->
-    <button (click)="add(todoTitle.value); todoTitle.value=''">
+    </label>-->
+<!-- (click) passes input value to add() and then clears the input -->
+<!--<button (click)="add(todoTitle.value); todoTitle.value=''">
       add
     </button>
-</div>
+</div>-->
+
+<!--export interface Todo {
+    id: number;
+    title: string;
+    dueDate: Date;
+    category: Category;
+    note: string;
+    important: boolean;
+    completed: boolean;
+}
+
+enum Category {
+    WORK = 'WORK',
+    STUDY = 'STUDY',
+    HOME = 'HOME',
+    HOBBY = 'HOBBY',
+    OTHER = 'OTHER'
+}-->

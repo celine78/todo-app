@@ -21,6 +21,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { HeaderComponent } from './header/header.component';
 import { WaitingPageComponent } from './waiting-page/waiting-page.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { WaitingPageComponent } from './waiting-page/waiting-page.component';
     ErrorPageComponent,
     HeaderComponent,
     WaitingPageComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
