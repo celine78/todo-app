@@ -18,14 +18,14 @@
 }
 
 .form-group{
-    margin-left: 8em;
-    margin-bottom: 3em;
+    margin-left: 2em;
+    margin-bottom: 2em;
 }
 
 .titel-form{
-    margin-bottom: 4em;
-    margin-top: 4em;
-    margin-left: 5em;
+    margin-bottom: 3em;
+    margin-top: 3em;
+    margin-left: 1.6em;
     font-size: 1.8em;
     font-weight: lighter;
 }
@@ -35,8 +35,5 @@
     position: relative;
     margin-right: 2em;
     margin-top: 4em;
-}
-
-.button-register{
-    margin-left: 8.8em;
+    margin-bottom: 4em;
 }

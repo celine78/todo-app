@@ -9,6 +9,8 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { WaitingPageComponent } from './waiting-page/waiting-page.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { ProfileComponent } from './profile/profile.component';
+import { LogoutComponent } from './logout/logout.component';
 
 
 const routes: Routes = [
@@ -19,7 +21,9 @@ const routes: Routes = [
   { path: 'todo-edit/:id', component: TodoEditComponent},
   { path: 'todo-add', component: TodoAddComponent},
   { path: 'todo-detail/:id', component: TodoDetailsComponent},
+  { path: 'profile/:id', component: ProfileComponent},
   { path: 'waiting', component: WaitingPageComponent},
+  { path: 'logout', component: LogoutComponent},
   { path: '**', component: ErrorPageComponent}
 ];
 

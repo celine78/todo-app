@@ -4,6 +4,7 @@
     <hr class="line">
 </div>
 
+<div *ngFor="let user of users">{{checkAuth()}}</div>
 <div *ngIf="todo">
     <h2>{{todo.title | uppercase}} Details</h2>
     <div><span>id: </span>{{todo.id}}</div>

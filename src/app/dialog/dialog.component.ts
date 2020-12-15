@@ -20,7 +20,8 @@ export class DialogComponent implements OnInit {
   (
     // https://stackblitz.com/edit/mat-dialog-example?file=app%2Falert-dialog%2Falert-dialog.component.ts
     @Inject(MAT_DIALOG_DATA) private data: any,
-    private dialogRef: MatDialogRef<DialogComponent>) {
+    private dialogRef: MatDialogRef<DialogComponent>
+  ) {
       if(data){
       this.title = data.title,
       this.body = data.body,

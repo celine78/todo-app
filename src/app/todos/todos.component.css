@@ -1,10 +1,12 @@
 .card-size {
     width: 70em;
     height: 5em;
-    position: relative; 
+    position: relative;
+    border-color: rgb(0, 0, 0);
     border-radius: 2.3em;
     border-left: none;
     border-right: none;
+    border-width: 0.5px;
     margin: 0 auto;
     margin-top: 2em;
 }
@@ -14,15 +16,22 @@
     margin-left: 1.5em;
     font-weight: normal;
     font-size: 1.3em;
+}
 
+.todo-text-completed{
+    color: rgb(197, 197, 197);
+    text-align: left;
+    margin-left: 1.5em;
+    font-weight: normal;
+    font-size: 1.3em;
+    
 }
 
 button.mat-icon-button {
-    margin-left: 0.8em;
     border-width: 0.2em;
     display: inline-block;
     align-items: right;
-    margin-left: 2.8em;
+    margin-left: 1.5em;
 }
 
 .mat-icon{
@@ -31,7 +40,6 @@ button.mat-icon-button {
     vertical-align: middle;
     margin-right: 0.2em;
     margin-bottom: 0.2em;
-
 }
 
 .line{
@@ -54,5 +62,13 @@ button.mat-icon-button {
 
 .removeIcon{
     color: rgb(231, 45, 107)
+}
+
+.icons{
+    margin-left: 8.5em;
+}
+
+.completed{
+    color: green;
 }
 

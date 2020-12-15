@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { Todo } from './todo';
+import { User } from './user';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +15,18 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 4, title: "Buy new jogging pants", dueDate: '20.12.2020', category: 'HOBBY', note: '', important: false, completed: false},
       { id: 5, title: "Report working hours", dueDate: '07.12.2020', category: 'WORK', note: 'Add hours of last week.', important: true, completed: false}
     ];
-    return {todos};
+    const users = [
+      { id: 1, username: 'madams@gmail.com', password: 'password', firstName: 'Marc', lastName: 'Adams', authentification: false }
+    ];
+    return {todos, users};
   }
 
   genId(todos: Todo[]): number {
-    return todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 11;
+    return todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 999;
+  }
+
+  genIdUser(users: User[]): number {
+    return users.length > 0 ? Math.max(...users.map(user => user.id!)) + 1 : 999;
   }
 
   constructor() { }
@@ -40,4 +48,12 @@ enum Category {
     HOME,
     HOBBY,
     OTHER
+
+
+    id: number;
+    username: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    authentification: boolean;
 */

@@ -13,7 +13,7 @@ export class WaitingPageComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       this.router.navigate(['/todos']);
-  }, 0.000000000000000001);
+    }, 0.000000000000000001);
   }
 
 }

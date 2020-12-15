@@ -8,7 +8,7 @@ export interface Todo {
     completed: boolean;
 }
 
-enum Category {
+export enum Category {
     WORK = 'WORK',
     STUDY = 'STUDY',
     HOME = 'HOME',

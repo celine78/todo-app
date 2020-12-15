@@ -4,58 +4,76 @@
   <hr class="line">
 </div>
 
-<h6 class="titel-form">ENTER A NEW TODO</h6>
-
-<form class="form-template">
-  <div class="form-group row">
-    <label for="inputEmail3MD" class="col-sm-2 col-form-label">TITLE</label>
-    <div class="col-sm-10">
-      <div class="md-form mt-0">
-        <input mdbInput type="email" class="form-control" id="inputEmail3MD" placeholder="TITLE">
+<div *ngFor="let user of users">{{checkAuth()}}</div>
+<div class="container bg-white border">
+  <h6 class="titel-form">ENTER A NEW TODO</h6>
+  <form class="form-template" [formGroup]="form">
+    <div class="form-group row">
+      <label for="title" class="col-sm-2 col-form-label">TITLE</label>
+      <div class="col-sm-8">
+        <div class="md-form mt-0">
+          <input type="title" class="form-control" [formControlName]="'title'" placeholder="TITLE">
+        </div>
       </div>
     </div>
-  </div>
-  <div class="form-group row">
-    <label for="inputPassword3MD" class="col-sm-2 col-form-label">DUE DATE</label>
-    <div class="col-sm-10">
-      <div class="md-form mt-0">
-        <input mdbInput type="password" class="form-control" id="inputPassword3MD" placeholder="Password">
+    <div class="form-group row" [formGroup]="form">
+      <label for="dueDate" class="col-sm-2 col-form-label">DUE DATE</label>
+      <div class="col-sm-8">
+        <div class="md-form mt-0">
+          <!--https://h2qutc.github.io/angular-material-components/datetimepicker-->
+          <mat-form-field>
+            <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date" [formControlName]="'dueDate'"
+              [min]="minDate" [max]="maxDate">
+            <mat-datepicker-toggle matSuffix [for]="$any(picker)">
+            </mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [stepHour]="stepHour"
+              [stepMinute]="stepMinute" [color]="color" [touchUi]="touchUi">
+            </ngx-mat-datetime-picker>
+          </mat-form-field>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="form-group row">
-    <label for="inputPassword3MD" class="col-sm-2 col-form-label">CATEGORY</label>
-    <div class="col-sm-10">
-      <div class="md-form mt-0">
-        <input mdbInput type="password" class="form-control" id="inputPassword3MD" placeholder="Password">
+    <div class="form-group row" [formGroup]="form">
+      <label for="category" class="col-sm-2 col-form-label">CATEGORY</label>
+      <div class="col-sm-8">
+        <div class="md-form mt-0">
+          <select id="category" [formControlName]="'category'">
+            <option *ngFor="let cat of Category | keyvalue" [ngValue]="cat.value">{{cat.value}}</option>
+          </select>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="form-group row">
-    <label for="inputPassword3MD" class="col-sm-2 col-form-label">IMPORTANT</label>
-    <div class="col-sm-10">
-      <div class="md-form mt-0">
-        <input mdbInput type="password" class="form-control" id="inputPassword3MD" placeholder="Password">
+    <div class="form-group row" [formGroup]="form">
+      <label for="important" class="col-sm-2 col-form-label">IMPORTANT</label>
+      <div class="col-sm-8">
+        <div class="md-form mt-0">
+          <label class="btn btn-secondary radio">
+            <input type="radio" value="yes" name="important" [formControlName]="'important'">
+            Yes
+          </label>
+          <label class="btn btn-secondary">
+            <input type="radio" value="no" name="important" [formControlName]="'important'">
+            No
+          </label>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="form-group row">
-    <label for="inputPassword3MD" class="col-sm-2 col-form-label">NOTE</label>
-    <div class="col-sm-10">
-      <div class="md-form mt-0">
-        <input mdbInput type="password" class="form-control" id="inputPassword3MD" placeholder="Password">
+    <div class="form-group row" [formGroup]="form">
+      <label for="note" class="col-sm-2 col-form-label">NOTE</label>
+      <div class="col-sm-8">
+        <div class="md-form mt-0">
+          <textarea type="note" class="form-control" rows="3" [formControlName]="'note'"></textarea>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="form-group row">
-    <div class="col-md-12">
-      <button class="btn btn-outline-dark buttons-row" type="submit" mdbBtn>Back</button>
-      <button class="btn btn-outline-primary buttons-row" type="submit" mdbBtn>Save</button>
+    <div class="form-group row">
+      <div class="col-md-8">
+        <button class="btn btn-outline-dark buttons-row" type="submit" (click)="goBack()">Back</button>
+        <button class="btn btn-outline-primary buttons-row" type="submit" (click)="save()">Save</button>
+      </div>
     </div>
-    <div class="col-md-12">
-    </div>
-  </div>
-</form>
+  </form>
+</div>
 
 <!--<ul class="todos">
     <li *ngFor="let todo of todos">
@@ -75,21 +93,3 @@
       add
     </button>
 </div>-->
-
-<!--export interface Todo {
-    id: number;
-    title: string;
-    dueDate: Date;
-    category: Category;
-    note: string;
-    important: boolean;
-    completed: boolean;
-}
-
-enum Category {
-    WORK = 'WORK',
-    STUDY = 'STUDY',
-    HOME = 'HOME',
-    HOBBY = 'HOBBY',
-    OTHER = 'OTHER'
-}-->
