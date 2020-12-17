@@ -4,15 +4,97 @@
     <hr class="line">
 </div>
 
-<div *ngFor="let user of users">{{checkAuth()}}</div>
+<!--<div *ngFor="let user of users">{{checkAuth()}}</div>-->
 <div *ngIf="todo">
-    <h2>{{todo.title | uppercase}} Details</h2>
-    <div><span>id: </span>{{todo.id}}</div>
-    <div>
-        <label>title:
-        <input [(ngModel)]="todo.title" placeholder="title"/>
-        </label>
+    <div class="container bg-white border">
+        <h6 class="titel-form">Edit {{todo.title}}</h6>
+        <form class="form-template" [formGroup]="form">
+            <div class="form-group row">
+                <label for="title" class="col-sm-2 col-form-label">TITLE</label>
+                <div class="col-sm-8">
+                    <div class="md-form mt-0">
+                        <input type="title" class="form-control" [formControlName]="'title'" placeholder={{todo.title}}>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" [formGroup]="form">
+                <label for="dueDate" class="col-sm-2 col-form-label">DUE DATE</label>
+                <div class="col-sm-8">
+                    <div class="md-form mt-0">
+                        <!--https://h2qutc.github.io/angular-material-components/datetimepicker-->
+                        <mat-form-field>
+                            <input matInput [ngxMatDatetimePicker]="picker" placeholder="{{todo.dueDate}}"
+                                [formControlName]="'dueDate'">
+                            <mat-datepicker-toggle matSuffix [for]="$any(picker)">
+                            </mat-datepicker-toggle>
+                            <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [stepHour]="stepHour"
+                                [stepMinute]="stepMinute" [color]="color" [touchUi]="touchUi">
+                            </ngx-mat-datetime-picker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" [formGroup]="form">
+                <label for="category" class="col-sm-2 col-form-label">CATEGORY</label>
+                <div class="col-sm-8">
+                    <div class="md-form mt-0">
+                        <select id="category" [(ngModel)]='todo.category' [formControlName]="'category'">
+                            <option *ngFor="let cat of Category | keyvalue" [ngValue]="cat.value">{{cat.value}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" [formGroup]="form">
+                <label for="important" class="col-sm-2 col-form-label">IMPORTANT</label>
+                <div class="col-sm-8">
+                    <div class="md-form mt-0">
+                        <label class="badge badge-secondary badge-box">
+                            <span *ngIf="todo.important === true" class="badge"><h5>YES</h5></span>
+                            <span *ngIf="todo.important === false" class="badge"><h5>NO</h5></span>
+                        </label>
+                        <label class="btn btn-secondary radio">
+                            <input type="radio" value="true" id="important" name="important" [formControlName]="'important'">
+                            Yes
+                        </label>
+                        <label class="btn btn-secondary">
+                            <input type="radio" value="false" id="important" name="important" [formControlName]="'important'">
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row" [formGroup]="form">
+                <label for="note" class="col-sm-2 col-form-label">NOTE</label>
+                <div class="col-sm-8">
+                    <div class="md-form mt-0">
+                        <textarea type="note" class="form-control" placeholder="{{todo.note}}" rows="3" [formControlName]="'note'"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-8">
+                    <button class="btn btn-outline-dark buttons-row" type="submit" (click)="goBack()">Back</button>
+                    <button class="btn btn-outline-primary buttons-row" type="submit" (click)="save()">Save</button>
+                </div>
+            </div>
+        </form>
     </div>
-    <button (click)="save()">save</button>
-    <button (click)="goBack()">go back</button>
 </div>
+<!--<ul class="todos">
+      <li *ngFor="let todo of todos">
+          <a routerLink="/todo-detail/{{todo.id}}">
+              <span class="badge">{{todo.id}}</span> {{todo.title}}
+          </a>
+          <button class="delete" title="delete todo"
+                  (click)="delete(todo)">x</button>
+      </li>
+  </ul>
+  <div>
+      <label>Todo title:
+        <input #todoTitle />
+      </label>-->
+<!-- (click) passes input value to add() and then clears the input -->
+<!--<button (click)="add(todoTitle.value); todoTitle.value=''">
+        add
+      </button>
+  </div>-->

@@ -6,6 +6,7 @@
 
 <div *ngFor="let user of users">{{checkAuth()}}</div>
 <div class="container bg-white border">
+  <div *ngFor="let todo of todos">
     <h6 class="titel-form">{{todo.title}}</h6>
     <form class="form-template" [formGroup]="form">
       <div class="form-group row">

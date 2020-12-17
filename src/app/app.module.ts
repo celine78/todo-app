@@ -61,7 +61,7 @@ import { ProfileComponent } from './profile/profile.component';
     MatDatepickerModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({
-      timeOut: 1500,
+      timeOut: 2000,
       positionClass: 'toast-top-right',
       preventDuplicates: true,
       maxOpened: 3,
@@ -71,7 +71,7 @@ import { ProfileComponent } from './profile/profile.component';
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'de-CH' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,7 +9,7 @@ import { User } from './user';
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     const todos = [
-      { id: 1, title: "Create JavaScript project", dueDate: '01.01.2020', category: 'STUDY', note: 'To do before other projects.', important: true, completed: false},
+      { id: 1, title: "Create JavaScript project", dueDate: '01.01.2020', category: 'STUDY', note: 'To do before other projects.', important: false, completed: false},
       { id: 2, title: "Prepare for JavaScript exam", dueDate: '10.01.2020', category: 'STUDY', note: 'To do after project.', important: true, completed: false},
       { id: 3, title: "Do the groceries", dueDate: '03.12.2020', category: 'HOME', note: 'Buy vegetables and fruits.', important: false, completed: false},
       { id: 4, title: "Buy new jogging pants", dueDate: '20.12.2020', category: 'HOBBY', note: '', important: false, completed: false},
