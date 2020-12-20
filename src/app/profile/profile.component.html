@@ -1,47 +1,47 @@
-<p>profile works!</p>
-<div *ngFor="let user of users">{{checkAuth()}}</div>
+<div>
+  <hr class="line">
+  <h5 class="title-text">Your Profile</h5>
+  <hr class="line">
+</div>
 
-<div class="container bg-white border">
-    <h6 class="titel-form">{{user.firstName}} {{user.lastName}}</h6>
-    
-    <form class="form-template" [formGroup]="form" >
-      <div class="form-group row">
-        <label for="firstName" class="col-sm-2 col-form-label">FIRST NAME</label>
-        <div class="col-sm-8">
-          <div class="md-form mt-0">
-            <input type="firstName" class="form-control" [formControlName]="'firstName'" placeholder="FIRST NAME">
-          </div>
+<div *ngIf="user">
+  <div class="container bg-white border">
+    <h6 class="title">Your Personal Information</h6>
+    <div class="row card-box">
+      <label for="fistName" class="col-sm-2 ">FIRST NAME</label>
+      <div class="col-sm-8 card">
+        <div class="mt-0 card-body">
+          {{user.firstName}}
         </div>
       </div>
-      <div class="form-group row" [formGroup]="form" >
-        <label for="lastName" class="col-sm-2 col-form-label">LAST NAME</label>
-        <div class="col-sm-8">
-          <div class="md-form mt-0">
-            <input type="lastName" class="form-control" [formControlName]="'lastName'" placeholder="LAST NAME">
-          </div>
-        </div>
-      </div>
-      <div class="form-group row" [formGroup]="form" >
-        <label for="email" class="col-sm-2 col-form-label">EMAIL</label>
-        <div class="col-sm-8">
-          <div class="md-form mt-0">
-            <input type="email" class="form-control" [formControlName]="'email'" placeholder="EMAIL">
-          </div>
-        </div>
-      </div>
-      <div class="form-group row" [formGroup]="form" >
-        <label for="password" class="col-sm-2 col-form-label">PASSWORD</label>
-        <div class="col-sm-8">
-          <div class="md-form mt-0">
-            <input type="password" class="form-control" [formControlName]="'password'" placeholder="PASSWORD">
-          </div>
-        </div>
-      </div>
-      <div class="form-group row">
-        <div class="col-md-8">
-          <button class="btn btn-outline-dark buttons-row" type="submit" (click)="goBack()">Back</button>
-          <button class="btn btn-outline-primary buttons-row" type="submit" (click)="save()">Save</button>
-        </div>
-      </div>
-    </form>
     </div>
+    <div class="row card-box">
+      <label for="lastName" class="col-sm-2">LAST NAME</label>
+      <div class="col-sm-8 card">
+        <div class="mt-0 card-body">
+          {{user.lastName}}
+        </div>
+      </div>
+    </div>
+    <div class="row card-box">
+      <label for="email" class="col-sm-2 ">EMAIL</label>
+      <div class="col-sm-8 card">
+        <div class="mt-0 card-body">
+          {{user.username}}
+        </div>
+      </div>
+    </div>
+    <div class="row card-box">
+      <label for="important" class="col-sm-2 ">PASSWORD</label>
+      <div class="col-sm-8 card">
+        <div class=" mt-0 card-body">{{getPassword()}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <button class="btn btn-outline-dark buttons-row" (click)="goBack()">Back</button>
+        <button class="btn btn-outline-primary buttons-row" (click)="edit(user)">Edit</button>
+      </div>
+    </div>
+  </div>
+</div>

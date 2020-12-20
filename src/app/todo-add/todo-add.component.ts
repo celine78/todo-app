@@ -61,13 +61,15 @@ export class TodoAddComponent implements OnInit {
   @Input() important: boolean = false
   @Input() note: string = ''
 
-  getTodos(): void {
-    this.todoService.getTodos().subscribe(todos => this.todos = todos);
+  getTodos() {
+    //this.todoService.getTodos().subscribe(todos => this.todos = todos);
+    return this.todoService.getTodos().toPromise()
   }
 
   ngOnInit(): void {
-    this.getTodos();
-    this.getUsers();
+    //this.getTodos();
+    //this.getUsers();
+    this.checkAuth()
   }
 
   add(title: string): void {
@@ -84,15 +86,26 @@ export class TodoAddComponent implements OnInit {
     this.todoService.deleteTodo(todo).subscribe();
   }
 
-  checkAuth(): void {
-    this.users.forEach( (user) => {
-      if(user.authentification === true){
-        this.user = user;
+  async checkAuth() {
+    this.users = await this.getUsers()
+    this.todos = await this.getTodos()
+    await this.checkUsers()
+  }
+
+  checkUsers() {
+    for(let i=0; i < this.users.length ;i++) {
+      console.log('users', this.users)
+      if(this.users[i].authentification == true) {
+        console.log('users[i]', this.users[i])
+
+        this.user = this.users[i]
         return
-      } else { 
-        this.router.navigate(['/login'])
       }
-    })
+      
+    } //if(this.user != undefined) { 
+      this.router.navigate(['/login']); 
+   // } else { return false }
+
   }
 
   goBack(): void {
@@ -100,7 +113,8 @@ export class TodoAddComponent implements OnInit {
   }
 
   getUsers() {
-    this.userService.getUsers().subscribe((users: User[]) => this.users = users);
+    //this.userService.getUsers().subscribe((users: User[]) => this.users = users);
+    return this.userService.getUsers().toPromise()
   }
 
   save() {
@@ -110,13 +124,20 @@ export class TodoAddComponent implements OnInit {
       let cat: Category
       this.form.getRawValue().category == '' ? cat = Category.HOBBY : cat = this.form.getRawValue().category
 
+      let newDate = this.form.getRawValue().dueDate
+      let dateFormatted = moment(newDate).format('LLL')
+      const dueDate =  dateFormatted
+
+      let important: boolean
+      this.form.getRawValue().important == 'yes' ? important = true : important =  false    
+      
       const title = this.form.getRawValue().title
-      const dueDate = this.form.getRawValue().dueDate
-      const important = this.form.getRawValue().important
       const note = this.form.getRawValue().note
 
-      let todo : Todo = { id: 10, title: title, dueDate: dueDate, category: cat, important: important, 
-        note: note, completed: false };
+      const id = this.todoService.createTodoId(this.todos)
+
+      let todo : Todo = { id: id, title: title, dueDate: dueDate, category: cat, important: important, 
+        note: note, completed: false, userId: this.user.id};
 
       this.todoService.addTodo(todo).subscribe((todo) => {
         this.todos.push(todo)

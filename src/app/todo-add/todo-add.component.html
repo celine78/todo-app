@@ -4,7 +4,8 @@
   <hr class="line">
 </div>
 
-<div *ngFor="let user of users">{{checkAuth()}}</div>
+<!--<div *ngIf="checkAuth() == true">-->
+<div *ngIf="user">
 <div class="container bg-white border">
   <h6 class="titel-form">ENTER A NEW TODO</h6>
   <form class="form-template" [formGroup]="form">
@@ -22,10 +23,8 @@
         <div class="md-form mt-0">
           <!--https://h2qutc.github.io/angular-material-components/datetimepicker-->
           <mat-form-field>
-            <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date" [formControlName]="'dueDate'"
-              [min]="minDate" [max]="maxDate">
-            <mat-datepicker-toggle matSuffix [for]="$any(picker)">
-            </mat-datepicker-toggle>
+            <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date" [formControlName]="'dueDate'">
+            <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
             <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [stepHour]="stepHour"
               [stepMinute]="stepMinute" [color]="color" [touchUi]="touchUi">
             </ngx-mat-datetime-picker>
@@ -48,11 +47,11 @@
       <div class="col-sm-8">
         <div class="md-form mt-0">
           <label class="btn btn-secondary radio">
-            <input type="radio" value="true" name="important" [formControlName]="'important'">
+            <input type="radio" value="yes" name="important" [formControlName]="'important'">
             Yes
           </label>
           <label class="btn btn-secondary">
-            <input type="radio" value="false" name="important" [formControlName]="'important'">
+            <input type="radio" value="no" name="important" [formControlName]="'important'">
             No
           </label>
         </div>
@@ -74,22 +73,4 @@
     </div>
   </form>
 </div>
-
-<!--<ul class="todos">
-    <li *ngFor="let todo of todos">
-        <a routerLink="/todo-detail/{{todo.id}}">
-            <span class="badge">{{todo.id}}</span> {{todo.title}}
-        </a>
-        <button class="delete" title="delete todo"
-                (click)="delete(todo)">x</button>
-    </li>
-</ul>
-<div>
-    <label>Todo title:
-      <input #todoTitle />
-    </label>-->
-<!-- (click) passes input value to add() and then clears the input -->
-<!--<button (click)="add(todoTitle.value); todoTitle.value=''">
-      add
-    </button>
-</div>-->
+</div>

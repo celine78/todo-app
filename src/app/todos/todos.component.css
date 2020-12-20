@@ -61,7 +61,8 @@ button.mat-icon-button {
 }
 
 .removeIcon{
-    color: rgb(231, 45, 107)
+    color: rgb(231, 45, 107);
+    margin-right: none;
 }
 
 .icons{
@@ -72,3 +73,25 @@ button.mat-icon-button {
     color: green;
 }
 
+.badge{
+    margin-right: 1.5em;
+}
+
+.dueDate {
+    width: 8em;
+    margin-right: 25em;
+}
+
+.glasses{
+    margin-bottom: 0.8em;
+}
+
+.glass-button{
+    background-color: white;
+    padding: none;
+    border: none;
+}
+
+.badge-text {
+    font-weight: normal;
+}

@@ -1,0 +1,39 @@
+.line{
+    width: 90%;
+    margin-top: 3em;
+    margin-bottom: 3em;
+    border-width: 0.2em;
+    border-radius: 0.2em;
+}
+
+.title-text{
+    text-align: center;
+    font-size: 2em;
+    font-weight: lighter;
+}
+
+.form-template{
+    position: relative;
+    width: 80em;
+}
+
+.form-group{
+    margin-left: 2em;
+    margin-bottom: 2em;
+}
+
+.titel-form{
+    margin-bottom: 3em;
+    margin-top: 3em;
+    margin-left: 1.6em;
+    font-size: 1.8em;
+    font-weight: lighter;
+}
+
+.buttons-row{
+    justify-content: center;
+    position: relative;
+    margin-right: 2em;
+    margin-top: 4em;
+    margin-bottom: 4em;
+}

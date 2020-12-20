@@ -10,12 +10,13 @@ import { User } from './user';
   providedIn: 'root'
 })
 export class UserService {
+  authUserId: number = 0;
 
   constructor(private http: HttpClient, private router: Router) { }
 
   private url = 'api/users'
-  users!: User[]
-  user!: User
+  users?: User[]
+  user?: User
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -41,6 +42,7 @@ export class UserService {
 
   getUser(id: number): Observable<User> {
     const urlUser = `${this.url}/${id}`;
+    console.log('urluser', urlUser)
     return this.http.get<User>(urlUser).pipe(catchError(this.handleError<User>(`getUser id=${id}`))
     );
   }
@@ -67,6 +69,7 @@ export class UserService {
 
   login(user: User): Observable<any> {
     user.authentification = true;
+    this.setAuthUser(user.id)
     return this.http.put(this.url, user, this.httpOptions).pipe(catchError(this.handleError<any>('loginUser'))
     );
   }
@@ -77,25 +80,17 @@ export class UserService {
     );
   }
 
-  /*checkAuth(): void {
-    this.getUsers().subscribe((users: User[]) => this.users = users);
-    console.log('test: ',this.users)
-    this.users.forEach( (user) => {
-      if(user.authentification === true){
-        this.user = user;
-        return this.user
-      } else { 
-        return this.router.navigate(['/login'])
-      }
-    })
-  }*/
+  createUserId(users: User[]): number {
+    return users.length > 0 ? Math.max(...users.map(user => user.id)) + 1 : 999;
+  }
 
-  /*getAuth(title: Title): Observable<any> {
-    //if(user != undefined && user.authentification != false) {
-    return this.http.put('api/titles', title, this.httpOptions).pipe(catchError(this.handleError<any>('updateTitle'))
-    );
-  }*/
-    // status = 'Profile' : status = 'Login'
-    //return title
+  setAuthUser(id: number): void{
+    this.authUserId = id
+  }
+
+  getAuthUser(): number {
+    return this.authUserId
+  }
+
 };
 

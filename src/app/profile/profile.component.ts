@@ -1,11 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { UserService } from '../user.service';
 import { User } from '../user';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { StaticSymbolResolver } from '@angular/compiler';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -13,76 +14,60 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProfileComponent implements OnInit {
 
-  form: FormGroup
-
   constructor(
     private location: Location,
     private userService: UserService,
     private router: Router,
-    private readonly formBuilder: FormBuilder,
+    private route: ActivatedRoute,
     private toastr: ToastrService
   ) {
-    this.form = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]]
-    });
   }
 
   ngOnInit(): void {
-    this.getUsers();
+    //this.getUsers();
+    this.checkAuth()
   }
 
   users: User[] = []
   user!: User
 
-  @Input() firstName: string = ''
-  @Input() lastName: string = ''
-  @Input() email: string = ''
-  @Input() password: string = ''
-
   goBack(): void {
     this.location.back();
   }
 
-  getUsers(): void {
-    this.userService.getUsers().subscribe((users: User[]) => this.users = users);
+  getUsers() {
+    //this.userService.getUsers().subscribe((users: User[]) => this.users = users);
+    return this.userService.getUsers().toPromise()
   }
 
-  save() {
-    if (this.form.valid) {
-      const email = this.form.getRawValue().email
-      const password = this.form.getRawValue().password
-      const firstName = this.form.getRawValue().firstName
-      const lastName = this.form.getRawValue().lastName
-
-      let user : User = { username: email, password: password, firstName: firstName, lastName: lastName, 
-        authentification: false };
-
-      this.userService.addUser(user).subscribe((user) => {
-        this.users.push(user)
-      });
-      this.toastr.success('You have been successfully registered')
-      this.router.navigate(['/login'])
-    } else {
-      if(this.form.untouched) { this.toastr.warning('Please fill out the form') }
-      else if(this.form.getRawValue().firstName == '' || this.form.getRawValue().lastName == '') 
-             { this.toastr.warning('First name and last name must be entered') }
-      else if(this.form.get('email')?.invalid) { this.toastr.warning('Email is not a valid format') }
-      else if(this.form.getRawValue().password.length < 6) { this.toastr.warning('Password must be a minimum of 6 charachters') }
-      else { this.toastr.warning('An error occured. Please try again') }
-    }
+  getPassword(): string{
+    let stars = []
+    for(let p of this.user.password) { stars.push('*') }
+    return stars.join('').toString()
   }
 
-  checkAuth(): void {
-    this.users.forEach( (user) => {
-      if(user.authentification === true){
-        this.user = user;
+  async checkAuth() {
+    this.users = await this.getUsers()
+    await this.checkUsers()
+  }
+
+  checkUsers() {
+    for(let i=0; i < this.users.length ;i++) {
+      console.log('users', this.users)
+      if(this.users[i].authentification == true) {
+        console.log('users[i]', this.users[i])
+
+        this.user = this.users[i]
         return
-      } else { 
-        this.router.navigate(['/login'])
       }
-    })
+      
+    } //if(this.user != undefined) { 
+      this.router.navigate(['/login']); 
+   // } else { return false }
+
+  }
+
+  edit(user: User): void {
+    this.router ? this.router.navigate(['/profile-edit']) : console.log('No router found');
   }
 }

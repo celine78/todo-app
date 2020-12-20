@@ -6,13 +6,14 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon';
-import { MatDatepickerModule } from '@angular/material/datepicker'; 
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { MatInputModule } from '@angular/material/input';
 import { ToastrModule } from 'ngx-toastr';
-import { MAT_DATE_LOCALE } from '@angular/material/core'
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,6 +30,7 @@ import { HeaderComponent } from './header/header.component';
 import { WaitingPageComponent } from './waiting-page/waiting-page.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { ProfileComponent } from './profile/profile.component';
     WaitingPageComponent,
     RegisterComponent,
     ProfileComponent,
+    ProfileEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,8 +73,9 @@ import { ProfileComponent } from './profile/profile.component';
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
+    MatTooltipModule,
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'de-CH' }],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-US' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

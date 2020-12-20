@@ -1,11 +1,14 @@
+import { Moment } from "moment";
+
 export interface Todo {
     id: number;
     title: string;
-    dueDate: Date;
+    dueDate: string;
     category: Category;
     note: string;
     important: boolean;
     completed: boolean;
+    userId: number;
 }
 
 export enum Category {

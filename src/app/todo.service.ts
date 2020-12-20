@@ -34,7 +34,7 @@ export class TodoService {
     return this.http.get<Todo[]>(this.url).pipe(catchError(this.handleError<Todo[]>('getTodos', [])));
   }
 
-  getTodo(id: number): Observable<Todo> {
+  getTodo(id: number, url?: string): Observable<Todo> {
     const urlTodo = `${this.url}/${id}`;
     return this.http.get<Todo>(urlTodo).pipe(catchError(this.handleError<Todo>(`getTodo id=${id}`))
    );
@@ -55,8 +55,14 @@ export class TodoService {
    deleteTodo(todo: Todo | number): Observable<Todo> {
     const id = typeof todo === 'number' ? todo : todo.id;
     const urlTodo = `${this.url}/${id}`;
- 
+    console.log('id delete ', id)
+    console.log('todo delete ', todo)
+
     return this.http.delete<Todo>(urlTodo, this.httpOptions).pipe(catchError(this.handleError<Todo>('deleteTodo'))
     );
    }
+
+   createTodoId(todos: Todo[]): number {
+    return todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 999;
+  }
 }

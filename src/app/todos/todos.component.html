@@ -4,59 +4,65 @@
     <hr class="line">
 </div>
 
-<!--<a *ngFor="let todo of todos" class="col-1-4" routerLink="/todo-detail/{{todo.id}}">-->
-<div *ngFor="let user of users">{{checkAuth()}}</div>
-<div *ngFor="let todo of todos">
+<!--<div *ngIf="checkAuth() == true"></div>-->
+<!--<div *ngIf="user">-->
+
+<!--<div>{{getUserTodos()}}</div>-->
+<!--<div *ngIf="userTodos">-->
+<div *ngFor="let todo of userTodos">
     <div class="card card-size">
         <div class="card-body">
             <div class="row align-items-center">
-                <div *ngIf="!todo.completed" class="col-md-6">
+                <div *ngIf="!todo.completed" class="col-md-4">
                     <h5 class="todo-text">{{todo.title}}</h5>
                 </div>
-                <div *ngIf="todo.completed" class="col-md-6">
+                <div *ngIf="todo.completed" class="col-md-4">
                     <h5 class="todo-text-completed">{{todo.title}}</h5>
                 </div>
-                <div class="col-md-auto icons">
-                    <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-eyeglasses" fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M4 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm2.625.547a3 3 0 0 0-5.584.953H.5a.5.5 0 0 0 0 
+                <div class="col-md-auto icons badge">
+                    <div class="badge dueDate">
+                        <h5 class="badge-text " matTooltip="Due date" matTooltipPosition="above">{{todo.dueDate}}
+                        </h5>
+                    </div>
+                    <button class="glass-button" (click)="review(todo)">
+                        <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-eyeglasses glasses"
+                            matTooltip="View" matTooltipPosition="above" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M4 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm2.625.547a3 3 0 0 0-5.584.953H.5a.5.5 0 0 0 0 
                                 1h.541A3 3 0 0 0 7 8a1 1 0 0 1 2 0 3 3 0 0 0 5.959.5h.541a.5.5 0 0 0 0-1h-.541a3 3 
                                 0 0 0-5.584-.953A1.993 1.993 0 0 0 8 6c-.532 0-1.016.208-1.375.547zM14 8a2 2 0 1 
                                 0-4 0 2 2 0 0 0 4 0z" />
-                    </svg>
+                        </svg>
+                    </button>
                     <button *ngIf="todo.important" mat-icon-button class="starIcon" aria-label="Star todo"
-                        (click)="changeImp(todo)">
+                        matTooltip="Important" matTooltipPosition="above" (click)="changeImp(todo)">
                         <mat-icon>star</mat-icon>
                     </button>
                     <button *ngIf="!todo.important" mat-icon-button color="basic" aria-label="Star todo"
-                        (click)="changeImp(todo)">
+                        matTooltip="Not important" matTooltipPosition="above" (click)="changeImp(todo)">
                         <mat-icon>star</mat-icon>
                     </button>
-                    <button mat-icon-button aria-label="Edit todo" (click)="edit(todo)">
+                    <button mat-icon-button aria-label="Edit todo" (click)="edit(todo)" matTooltip="Edit"
+                        matTooltipPosition="above">
                         <mat-icon>edit</mat-icon>
                     </button>
-                    <button *ngIf="!todo.completed" mat-icon-button aria-label="Complete todo" (click)="completed(todo)">
+                    <button *ngIf="!todo.completed" mat-icon-button aria-label="Complete todo" (click)="completed(todo)"
+                        matTooltip="Not done" matTooltipPosition="above">
                         <mat-icon>check_circle_outline</mat-icon>
                     </button>
-                    <button *ngIf="todo.completed" mat-icon-button class="completed" aria-label="Complete todo" 
-                        (click)="completed(todo)">
+                    <button *ngIf="todo.completed" mat-icon-button class="completed" aria-label="Complete todo"
+                        (click)="completed(todo)" matTooltip="Done" matTooltipPosition="above">
                         <mat-icon>check_circle</mat-icon>
                     </button>
-                    <button mat-icon-button class="removeIcon" aria-label="Remove todo" (click)="delete(todo)">
+                    <button mat-icon-button class="removeIcon" aria-label="Remove todo" (click)="delete(todo)"
+                        matTooltip="Delete" matTooltipPosition="above">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    </div>
+<!--</div>
 
-
-
-<!--<div class="grid grid-pad">
-    <a *ngFor="let todo of todos" class="col-1-4" routerLink="/todo-detail/{{todo.id}}">
-        <div class="module todo">
-            <h4>{{todo.title}}</h4>
-        </div>
-    </a>
 </div>-->

@@ -1,16 +1,12 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { ThemePalette } from '@angular/material/core';
-import * as moment from 'moment';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { ActivatedRoute } from '@angular/router';
 
 import { Todo } from '../todo';
-import { Category } from '../todo';
 import { TodoService } from '../todo.service'
 import { UserService } from '../user.service';
 import { User } from '../user';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -20,79 +16,60 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class TodoDetailsComponent implements OnInit {
 
-  form: FormGroup
-  @ViewChild('picker') picker: any;
-
-  public date!: moment.Moment;
-  public showSpinners = true;
-  public minDate!: moment.Moment;
-  public maxDate!: moment.Moment;
-  public stepHour = 1;
-  public stepMinute = 1;
-  public touchUi = false;
-  public color: ThemePalette = 'primary';
-
-  todos: Todo[] = [];
+  todo!: Todo;
   users: User[] = []
-  user!: User
-  public Category = Category
+  user?: User
+  userTodo!: Todo
 
   constructor(
     private todoService: TodoService, 
     private router: Router, 
     private userService: UserService,
     private location: Location,
-    private readonly formBuilder: FormBuilder,
+    private route: ActivatedRoute,
     private toastr: ToastrService,
-    private matFormFieldModule: MatFormFieldModule
-    ) { 
-      this.form = this.formBuilder.group({
-        title: ['', Validators.required],
-        dueDate: ['', Validators.required],
-        category: [''],
-        important: ['', Validators.required],
-        note: [''],
-      });
-    }
-
-  @Input() title: string = ''
-  @Input() dueDate!: Date
-  @Input() category: string = ''
-  @Input() important: boolean = false
-  @Input() note: string = ''
-
-  getTodos(): void {
-    this.todoService.getTodos().subscribe(todos => this.todos = todos);
-  }
+    ) { }
 
   ngOnInit(): void {
-    this.getTodos();
-    this.getUsers();
-  }
-
-  add(title: string): void {
-    title = title.trim();
-    if (!title) { return; }
-    this.todoService.addTodo({ title } as Todo)
-      .subscribe(todo => {
-        this.todos.push(todo);
-      });
+    //this.getTodo();
+    //this.getUsers();
+    this.checkAuth()
   }
   
   delete(todo: Todo): void {
-    this.todos = this.todos.filter(t => t !== todo);
     this.todoService.deleteTodo(todo).subscribe();
   }
 
-  checkAuth(): void {
-    this.users.forEach( (user) => {
-      if(user.authentification === true){
-        this.user = user;
+  async checkAuth() {
+    this.users = await this.getUsers()
+    this.todo = await this.getTodo()
+    await this.checkUsers()
+    await this.checkTodoId()
+
+  }
+
+  checkUsers() {
+    for(let i=0; i < this.users.length ;i++) {
+      console.log('users', this.users)
+      if(this.users[i].authentification == true) {
+        console.log('users[i]', this.users[i])
+
+        this.user = this.users[i]
         return
-      } else { 
-        this.router.navigate(['/login'])
       }
-    })
+      
+    } //if(this.user != undefined) { 
+      this.router.navigate(['/login']); 
+   // } else { return false }
+
+  }
+
+  checkTodoId() {
+    //this.todo.userId == this.user?.id ? this.userTodo = this.todo : this.router.navigate(['/login'])
+    //this.user != undefined && this.todo.userId == this.user.id ? this.userTodo = this.todo : console.log('cannot check id with user. user: ', this.user, 'this.todo.userId', this.todo.userId) //this.router.navigate(['/login'])
+    if(this.todo.userId == this.user?.id) {
+      return this.userTodo = this.todo
+    } else { return this.router.navigate(['/login']) }
   }
 
   goBack(): void {
@@ -100,36 +77,18 @@ export class TodoDetailsComponent implements OnInit {
   }
 
   getUsers() {
-    this.userService.getUsers().subscribe((users: User[]) => this.users = users);
+    //this.userService.getUsers().subscribe((users: User[]) => this.users = users);
+    return this.userService.getUsers().toPromise()
   }
 
-  save() {
-    if (this.form.valid) {
-      console.log('Todos before: ', this.todos)
+  getTodo() {
+    const id = +this.route.snapshot.paramMap.get('id')!
+    //this.todoService.getTodo(id).subscribe(todo => this.todo = todo);
+    return this.todoService.getTodo(id).toPromise()
+  }
 
-      let cat: Category
-      this.form.getRawValue().category == '' ? cat = Category.HOBBY : cat = this.form.getRawValue().category
+  edit(todo: Todo) {
+    this.router ? this.router.navigate([`/todo-edit/${todo.id}`]) : console.log('No router found');
 
-      const title = this.form.getRawValue().title
-      const dueDate = this.form.getRawValue().dueDate
-      const important = this.form.getRawValue().important
-      const note = this.form.getRawValue().note
-
-      let todo : Todo = { id: 10, title: title, dueDate: dueDate, category: cat, important: important, 
-        note: note, completed: false };
-
-      this.todoService.addTodo(todo).subscribe((todo) => {
-        this.todos.push(todo)
-      });
-      this.toastr.success('Your new task has been saved')
-      console.log('Todos after: ', this.todos)
-      this.router.navigate(['/todos'])
-    } else {
-      if(this.form.untouched) { this.toastr.warning('Please fill out the form') }
-      else if(this.form.getRawValue().title == '') { this.toastr.warning('A title must be entered') }
-      else if(this.form.getRawValue().dueDate == '') { this.toastr.warning('A due date must be choosen') }
-      else if(this.form.getRawValue().important == '') { this.toastr.warning('Please choose if the task is important') }          
-      else { this.toastr.warning('An error occured. Please try again') }
-    }
   }
 }

@@ -27,8 +27,8 @@ export class HeaderComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.getTodos()
-    this.getUsers()
+    //this.getTodos()
+    //this.getUsers()
     this.checkAuth()
   }
 
@@ -37,13 +37,13 @@ export class HeaderComponent implements OnInit {
   dialogConfig = new MatDialogConfig();
   todos: Todo[] = []
   users: User[] = []
-  user!: User;
-  status: string = 'Login'
+  userTodos: Todo[] = [];
+  user?: User;
 
-  getTodos(): void {
-    this.todoService.getTodos().subscribe((todos: Todo[]) => this.todos = todos);
+  getTodos() {
+    //this.todoService.getTodos().subscribe((todos: Todo[]) => this.todos = todos);
+    return this.todoService.getTodos().toPromise()
   }
-  
 
   clear(): void {
     this.dialogRef = this.dialog ? this.dialog.open(DialogComponent, {
@@ -68,9 +68,20 @@ export class HeaderComponent implements OnInit {
   }
 
   deleteTodos(): void {
-    this.todos.forEach( (todo) => {
+
+    let id = this.userService.getAuthUser()
+    let users: User[] = []
+    users = this.users.filter(user => user.id == id)
+    users ? this.user = users.shift() : console.log('id', id)
+
+    console.log('user.auth', this.user)
+    this.user ? this.userTodos = this.todos.filter(todo => todo.userId == this.user?.id) : console.log('still here', this.user, this.userTodos)
+    console.log('userTodos', this.userTodos)
+    this.userTodos.forEach( (todo) => {
       this.todoService.deleteTodo(todo).subscribe();
     })
+    console.log('Todos', this.todos)
+
   }
 
   logout(): void{
@@ -96,43 +107,34 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  getUsers(): void {
-    this.userService.getUsers().subscribe((users: User[]) => this.users = users);
+  getUsers() {
+    //this.userService.getUsers().subscribe((users: User[]) => this.users = users);
+    return this.userService.getUsers().toPromise()
   }
 
-  getUser(): void {
-    this.userService.getUser(this.user.id!).subscribe((user: User) => this.user = user);
+  getUser(id?: number): void {
+    console.log('id', id)
+    if(id != undefined) { this.userService.getUser(id).subscribe((user: User) => this.user = user);}
+    else { this.user ? this.userService.getUser(this.user.id).subscribe((user: User) => this.user = user) : console.log('no user foun')}
   }
 
-  checkAuth(): void {
-    this.users.forEach( (user) => {
-      if(user.authentification === true){
-        this.user = user;
-        return
-      } else { 
-        this.router.navigate(['/login'])
-      }
-    })
+  async checkAuth() {
+    this.users = await this.getUsers()
+    this.todos = await this.getTodos()
   }
-
-  /*requiredAuth(): void {
-    this.status = this.userService.getAuth(this.user)
-    
-  }*/
 
   userLogout(): void{
-    console.log('Logout users: ', this.users)
-    this.users.forEach( (user) => {
-      if(user.authentification === true){
-        this.user = user;
-        console.log('Logout user: ', user)
-        this.user.authentification = false
-        this.userService.logout(this.user).subscribe();
-      } else {
-        console.log('Already logged out')
-      }
-    })
-  }
 
-  //this.user != null || this.user != undefined ? this.router.navigate(['/todos']) : this.router.navigate(['/login'])
+    let id = this.userService.getAuthUser()
+    let users: User[] = []
+    users = this.users.filter(user => user.id == id)
+    users ? this.user = users.shift() : console.log('id', id)
+
+    if(this.user) { 
+      this.user.authentification = false;
+      this.userService.logout(this.user).subscribe();
+    } else {
+        console.log('No user found')
+      }
+  }
 }

@@ -56,7 +56,9 @@ export class RegisterComponent implements OnInit {
       const firstName = this.form.getRawValue().firstName
       const lastName = this.form.getRawValue().lastName
 
-      let user : User = { username: email, password: password, firstName: firstName, lastName: lastName, 
+      const id = this.userService.createUserId(this.users)
+
+      let user : User = { id: id, username: email, password: password, firstName: firstName, lastName: lastName, 
         authentification: false };
 
       this.userService.addUser(user).subscribe((user) => {

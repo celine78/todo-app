@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     private userService: UserService, 
     private router: Router, 
     private readonly formBuilder: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
     )
     {
     this.form = this.formBuilder.group({
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   }
       
   users: User[] = []
-  user!: User
+  user?: User
   title!: Title
   @Input() username: string = ''
   @Input() password: string = ''
@@ -54,21 +54,47 @@ export class LoginComponent implements OnInit {
       const username = this.form.getRawValue().username
       const password = this.form.getRawValue().password
 
-      this.users.forEach((user) => {
+      let userArray!: User[]
+      userArray = this.users.filter(user => user.username == username && user.password == password)
+      if(userArray.length != 0){
+
+        //console.log('this.users1', userArray.shift())
+        this.user = userArray.shift()
+        console.log(this.user)
+        this.user != undefined ? this.userService.login(this.user).subscribe() : console.log('problem')
+        console.log('this user id : ', this.user?.id)
+          this.toastr.success('Logged in successfully')
+          console.log('this.user4', this.user)
+          this.router.navigate(['/todos'])
+      }
+
+      /*this.users.forEach((user) => {
+        console.log('this.users1', this.users)
+        console.log('user1', user)
         if(user.username === username && user.password === password) {
           this.user = user
-          this.toastr.success('Logged in successfully')
+          console.log('this.user2', this.user)
           this.userService.login(this.user).subscribe()
+          console.log('this.user3', this.user)
+          this.toastr.success('Logged in successfully')
+          console.log('this.user4', this.user)
           this.router.navigate(['/todos'])
         } else if(user.username != username && user.password != password) {
+          console.log('this.user5', this.user)
           this.toastr.warning('Username and password cannot be found')
+          this.router.navigate(['/login']) 
         } else if(user.username != username) { 
           this.toastr.warning('Username cannot be found')
+          this.router.navigate(['/login']) 
         } else if(user.password != password) { 
           this.toastr.warning('Password is incorrect')
+          this.router.navigate(['/login']) 
         }
-      })
-    } else { this.toastr.warning('Email address or password are not valid') }
+      })*/
+    } else { 
+      this.toastr.warning('Email address or password are not valid')
+      //this.router.navigate(['/login']) 
+    }
   }
 
   getUsers(): void {
