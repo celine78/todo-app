@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
-import { ToastrService } from 'ngx-toastr';
+import { NGXLogger } from 'ngx-logger';
 
 @Component({
   selector: 'app-logout',
@@ -9,10 +9,11 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(private router: Router, private toastr: ToastrService) { }
+  constructor(private router: Router, private logger: NGXLogger) { }
 
   ngOnInit(): void {
     setTimeout(() => {
+      this.logger.info('Rerouting from logout to login')
       this.router.navigate(['/login']);
     }, 4000);
   }

@@ -6,13 +6,12 @@ import { TodoEditComponent } from './todo-edit/todo-edit.component';
 import { TodoDetailsComponent } from './todo-details/todo-details.component';
 import { TodoAddComponent } from './todo-add/todo-add.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
-import { WaitingPageComponent } from './waiting-page/waiting-page.component';
+import { ClearTodosComponent } from './clear-todos/clear-todos.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
-import { HeaderComponent } from './header/header.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/todos', pathMatch: 'full'},
@@ -24,7 +23,7 @@ const routes: Routes = [
   { path: 'todo-detail/:id', component: TodoDetailsComponent},
   { path: 'profile', component: ProfileComponent},
   { path: 'profile-edit', component: ProfileEditComponent },
-  { path: 'waiting', component: WaitingPageComponent},
+  { path: 'clear-todos', component: ClearTodosComponent},
   { path: 'logout', component: LogoutComponent},
   { path: '**', component: ErrorPageComponent}
 ];

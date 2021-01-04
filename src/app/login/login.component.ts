@@ -1,13 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { Md5 } from 'ts-md5';
+import { NGXLogger } from 'ngx-logger';
+import { throwError } from 'rxjs';
 
 import { UserService } from '../user.service';
 import { User } from '../user';
 import { Title } from '../title'
-import { Observable } from 'rxjs';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -20,84 +22,77 @@ export class LoginComponent implements OnInit {
   form: FormGroup
 
   constructor(
-    private location: Location, 
-    private userService: UserService, 
-    private router: Router, 
+    private location: Location,
+    private userService: UserService,
+    private router: Router,
     private readonly formBuilder: FormBuilder,
     private toastr: ToastrService,
-    )
-    {
+    private logger: NGXLogger
+  ) {
     this.form = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
     this.getUsers();
   }
-      
+
   users: User[] = []
   user?: User
   title!: Title
   @Input() username: string = ''
   @Input() password: string = ''
 
+  /**
+   * Getting all users in memory
+   */
+  getUsers(): void {
+    this.userService.getUsers().subscribe((users: User[]) => this.users = users);
+  }
+
+  /**
+   * Going back in history
+   */
   goBack(): void {
     this.location.back();
   }
 
-  //https://medium.com/javascript-in-plain-english/reactive-forms-in-angular-10-how-to-create-a-login-form-using-reactive-forms-c979e2b86135
+  /**
+   * Loggin in a user
+   */
+  // source: https://medium.com/javascript-in-plain-english/reactive-forms-in-angular-10-how-to-create-a-login-form-using-reactive-forms-c979e2b86135
   login(): void {
+    try {
+      if (this.form.valid) {
+        this.logger.info('Checking out new login')
+        const username = this.form.getRawValue().username.trim()
+        // simple hashing as no sentsitive data is stored
+        const password = Md5.hashStr(this.form.getRawValue().password).toString()
 
-    if(this.form.valid) {
-      const username = this.form.getRawValue().username
-      const password = this.form.getRawValue().password
-
-      let userArray!: User[]
-      userArray = this.users.filter(user => user.username == username && user.password == password)
-      if(userArray.length != 0){
-
-        //console.log('this.users1', userArray.shift())
-        this.user = userArray.shift()
-        console.log(this.user)
-        this.user != undefined ? this.userService.login(this.user).subscribe() : console.log('problem')
-        console.log('this user id : ', this.user?.id)
+        let userArray!: User[]
+        userArray = this.users.filter(user => user.username == username && user.password == password)
+        if (userArray.length != 0) {
+          this.logger.debug('User found in memory')
+          this.user = userArray.shift()
+          this.user != undefined ? this.userService.login(this.user).subscribe() : this.logger.error('User undefined')
           this.toastr.success('Logged in successfully')
-          console.log('this.user4', this.user)
           this.router.navigate(['/todos'])
-      }
-
-      /*this.users.forEach((user) => {
-        console.log('this.users1', this.users)
-        console.log('user1', user)
-        if(user.username === username && user.password === password) {
-          this.user = user
-          console.log('this.user2', this.user)
-          this.userService.login(this.user).subscribe()
-          console.log('this.user3', this.user)
-          this.toastr.success('Logged in successfully')
-          console.log('this.user4', this.user)
-          this.router.navigate(['/todos'])
-        } else if(user.username != username && user.password != password) {
-          console.log('this.user5', this.user)
-          this.toastr.warning('Username and password cannot be found')
-          this.router.navigate(['/login']) 
-        } else if(user.username != username) { 
-          this.toastr.warning('Username cannot be found')
-          this.router.navigate(['/login']) 
-        } else if(user.password != password) { 
-          this.toastr.warning('Password is incorrect')
-          this.router.navigate(['/login']) 
+        } else {
+          this.logger.debug('User not found in memory')
+          let usrname = this.users.filter(user => user.username == username)
+          usrname.length == 0 ?
+            this.toastr.warning('Username cannot be found') :
+            this.toastr.warning('Password cannot be found')
         }
-      })*/
-    } else { 
-      this.toastr.warning('Email address or password are not valid')
-      //this.router.navigate(['/login']) 
+      } else {
+        this.toastr.warning('Please enter a username and a password')
+      }
+    } catch (error) {
+      this.logger.error('Error : ', error)
+      this.toastr.error('An error occured with the login form')
+      throwError(new Error(error))
     }
-  }
-
-  getUsers(): void {
-    this.userService.getUsers().subscribe((users: User[]) => this.users = users);
   }
 }

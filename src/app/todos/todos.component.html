@@ -4,11 +4,6 @@
     <hr class="line">
 </div>
 
-<!--<div *ngIf="checkAuth() == true"></div>-->
-<!--<div *ngIf="user">-->
-
-<!--<div>{{getUserTodos()}}</div>-->
-<!--<div *ngIf="userTodos">-->
 <div *ngFor="let todo of userTodos">
     <div class="card card-size">
         <div class="card-body">
@@ -20,8 +15,13 @@
                     <h5 class="todo-text-completed">{{todo.title}}</h5>
                 </div>
                 <div class="col-md-auto icons badge">
-                    <div class="badge dueDate">
+                    <div *ngIf="!todo.completed" class="badge dueDate">
                         <h5 class="badge-text " matTooltip="Due date" matTooltipPosition="above">{{todo.dueDate}}
+                        </h5>
+                    </div>
+                    <div *ngIf="todo.completed" class="badge dueDate">
+                        <h5 class="badge-text-completed" matTooltip="Due date" matTooltipPosition="above">
+                            {{todo.dueDate}}
                         </h5>
                     </div>
                     <button class="glass-button" (click)="review(todo)">
@@ -62,7 +62,4 @@
             </div>
         </div>
     </div>
-    </div>
-<!--</div>
-
-</div>-->
+</div>

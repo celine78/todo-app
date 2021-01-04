@@ -1,12 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { NGXLogger } from 'ngx-logger';
 
 import { UserService } from '../user.service';
 import { User } from '../user';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { StaticSymbolResolver } from '@angular/compiler';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -18,56 +18,71 @@ export class ProfileComponent implements OnInit {
     private location: Location,
     private userService: UserService,
     private router: Router,
-    private route: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private logger: NGXLogger
   ) {
   }
 
   ngOnInit(): void {
-    //this.getUsers();
     this.checkAuth()
   }
 
   users: User[] = []
   user!: User
 
-  goBack(): void {
-    this.location.back();
-  }
-
-  getUsers() {
-    //this.userService.getUsers().subscribe((users: User[]) => this.users = users);
-    return this.userService.getUsers().toPromise()
-  }
-
-  getPassword(): string{
-    let stars = []
-    for(let p of this.user.password) { stars.push('*') }
-    return stars.join('').toString()
-  }
-
+  /**
+   * Getting all users and check that a user is authenticated
+   * source: https://stackblitz.com/edit/angular-async-await-eg?file=src%2Fapp%2Fapp.component.ts
+   */
   async checkAuth() {
     this.users = await this.getUsers()
     await this.checkUsers()
   }
 
-  checkUsers() {
-    for(let i=0; i < this.users.length ;i++) {
-      console.log('users', this.users)
-      if(this.users[i].authentification == true) {
-        console.log('users[i]', this.users[i])
+  /**
+   * Getting all users in memory
+   */
+  getUsers() {
+    return this.userService.getUsers().toPromise().catch(error => { this.logger.error(error); return [] }
+    )
+  }
 
+  /**
+   * Getting the authenticated user
+   */
+  checkUsers() {
+    for (let i = 0; i < this.users.length; i++) {
+      if (this.users[i].authentification == true) {
+        this.logger.debug('Authentificated user : ', this.users[i])
         this.user = this.users[i]
         return
       }
-      
-    } //if(this.user != undefined) { 
-      this.router.navigate(['/login']); 
-   // } else { return false }
-
+      this.logger.info('No user authentificated')
+    }
+    this.toastr.info('Please login to continue')
+    this.router.navigate(['/login']);
   }
 
-  edit(user: User): void {
-    this.router ? this.router.navigate(['/profile-edit']) : console.log('No router found');
+  /**
+   * Going back in history
+   */
+  goBack(): void {
+    this.location.back();
+  }
+
+  /**
+   * Hidding the password in the frontend with stars
+   */
+  getPassword(): string {
+    let stars = []
+    for (let p of this.user.password) { stars.push('*') }
+    return stars.join('').toString()
+  }
+
+  /**
+   * Redirecting to the profil editing component
+   */
+  edit(): void {
+    this.router.navigate(['/profile-edit'])
   }
 }

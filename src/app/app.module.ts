@@ -27,10 +27,11 @@ import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { HeaderComponent } from './header/header.component';
-import { WaitingPageComponent } from './waiting-page/waiting-page.component';
+import { ClearTodosComponent } from './clear-todos/clear-todos.component'
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
     LogoutComponent,
     ErrorPageComponent,
     HeaderComponent,
-    WaitingPageComponent,
+    ClearTodosComponent,
     RegisterComponent,
     ProfileComponent,
     ProfileEditComponent,
@@ -74,6 +75,10 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
     MatTooltipModule,
+    LoggerModule.forRoot({
+      serverLoggingUrl: '/api/logs', 
+      level: NgxLoggerLevel.INFO
+    }), 
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-US' }],
   bootstrap: [AppComponent]

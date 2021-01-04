@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { NGXLogger } from 'ngx-logger';
 
 import { Todo } from '../todo';
 import { TodoService } from '../todo.service'
 import { UserService } from '../user.service';
 import { User } from '../user';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-todos',
@@ -14,14 +17,14 @@ import { User } from '../user';
 export class TodosComponent implements OnInit {
 
   constructor(
-    private todoService: TodoService,  
-    private router: Router, 
+    private todoService: TodoService,
+    private router: Router,
     private userService: UserService,
-    ) { }
+    private toastr: ToastrService,
+    private logger: NGXLogger
+  ) { }
 
   ngOnInit(): void {
-    //this.getUsers()
-    //this.getTodos()
     this.checkAuth()
   }
 
@@ -30,99 +33,119 @@ export class TodosComponent implements OnInit {
   users: User[] = []
   user?: User
 
-  getTodos() {
-    //this.todoService.getTodos().subscribe(todos => this.todos = todos)
-    return this.todoService.getTodos().toPromise()
-  }
-
-  getUserTodos() {
-    console.log('this todos', this.todos)
-    console.log('this user', this.user)
-
-    this.user ? this.userTodos = this.todos.filter(todo => todo.userId == this.user?.id) : console.log('still here')
-    //return this.todos.filter(todo => todo.userId == this.user?.id)
-    console.log('this user todo', this.userTodos)
-
-  }
-
-  add(title: string): void {
-    title = title.trim();
-    if (!title) { return; }
-    this.todoService.addTodo({ title } as Todo).subscribe(todo => {this.todos.push(todo);});
-  }
-  
-  delete(todo: Todo): void {
-    this.userTodos = this.userTodos.filter(t => t !== todo);
-    this.todoService.deleteTodo(todo).subscribe();
-  }
-
-  edit(todo: Todo): void {
-    this.router ? this.router.navigate([`/todo-edit/${todo.id}`]) : console.log('No router found');
-  }
-
-  changeImp(todo: Todo): void {
-    todo.important ? todo.important = false : todo.important = true
-    this.todoService.updateTodo(todo).subscribe()
-  }
-
-  completed(todo: Todo): void {
-    todo.completed ? todo.completed = false : todo.completed = true
-    this.todoService.updateTodo(todo).subscribe()
-  }
-
-  review(todo: Todo): void {
-    this.router ? this.router.navigate([`/todo-detail/${todo.id}`]) : console.log('No router found');
-
-  }
-
-  //https://stackblitz.com/edit/angular-async-await-eg?file=src%2Fapp%2Fapp.component.ts
-
+  /**
+   * Getting all users and todos, checking authentication and filtering the users todo's
+   * source: https://stackblitz.com/edit/angular-async-await-eg?file=src%2Fapp%2Fapp.component.ts
+   */
   async checkAuth() {
     this.users = await this.getUsers()
     this.todos = await this.getTodos()
     await this.checkUsers()
     this.getUserTodos()
-
-
   }
 
-  checkUsers() {
-    for(let i=0; i < this.users.length ;i++) {
-      console.log('users', this.users)
-      if(this.users[i].authentification == true) {
-        console.log('users[i]', this.users[i])
+  /**
+   * Getting all users in memory
+   */
+  getUsers() {
+    return this.userService.getUsers().toPromise().catch(error => { this.logger.error(error); return [] }
+    )
+  }
 
+  /**
+   * Getting all users from memory
+   */
+  getTodos() {
+    return this.todoService.getTodos().toPromise().catch(error => { this.logger.error(error); return [] }
+    )
+  }
+
+  /**
+   * Getting the authenticated user
+   */
+  checkUsers() {
+    for (let i = 0; i < this.users.length; i++) {
+      if (this.users[i].authentification == true) {
+        this.logger.debug('Authentificated user : ', this.users[i])
         this.user = this.users[i]
         return
       }
-      
-    } //if(this.user != undefined) { 
-      this.router.navigate(['/login']); 
-   // } else { return false }
-
+      this.logger.info('No user authentificated')
+    }
+    this.toastr.info('Please login to continue')
+    this.router.navigate(['/login']);
   }
 
-  /*checkAuth(): boolean {
-    let users = this.users
-    for(let i=0; i < users.length ;i++) {
-      console.log('users', users)
-      if(users[i].authentification == true) {
-        console.log('users[i]', users[i])
+  /**
+   * Getting a user's todos
+   */
+  getUserTodos() {
+    this.userTodos = this.todos.filter(todo => todo.userId == this.user?.id)
+    this.logger.info('User todos : ', this.userTodos)
+  }
 
-        this.user = users[i]
-        return true
-      }
-      
-    } //if(this.user != undefined) { 
-      this.router.navigate(['/login']); 
-      return false 
-   // } else { return false }
-    
-  }*/
+  /**
+   * Deleting a todo
+   * @param todo A todo to delete
+   */
+  delete(todo: Todo): void {
+    try {
+      // deleting the todo from the user's todo array
+      this.userTodos = this.userTodos.filter(t => t !== todo)
+      // deleting in memory
+      this.todoService.deleteTodo(todo).subscribe()
+      this.logger.info('Todo deleted : ', todo.title)
+      this.toastr.success('Todo deleted successfully')
+    } catch (error) {
+      this.logger.error('Error : ', error)
+      this.toastr.error('An error occured with the todo editing form')
+      throwError(new Error(error))
+    }
+  }
 
-  getUsers() {
-    //this.userService.getUsers().subscribe((users: User[]) => this.users = users);
-    return this.userService.getUsers().toPromise()
+  /**
+   * Redirecting to the todo editing component
+   * @param todo A todo to edit
+   */
+  edit(todo: Todo): void {
+    this.router.navigate([`/todo-edit/${todo.id}`])
+  }
 
+  /**
+   * Changing the todo's importance
+   * @param todo A todo to update
+   */
+  changeImp(todo: Todo): void {
+    try {
+      todo.important ? todo.important = false : todo.important = true
+      this.todoService.updateTodo(todo).subscribe()
+    } catch (error) {
+      this.logger.error('Error : ', error)
+      this.toastr.error('An error occured with the todo editing form')
+      throwError(new Error(error))
+    }
+  }
+
+  /**
+   * Mark a todo as completed
+   * @param todo A todo to update
+   */
+  completed(todo: Todo): void {
+    try {
+      todo.completed ? todo.completed = false : todo.completed = true
+      this.todoService.updateTodo(todo).subscribe()
+    } catch (error) {
+      this.logger.error('Error : ', error)
+      this.toastr.error('An error occured with the todo editing form')
+      throwError(new Error(error))
+    }
+  }
+
+  /**
+   * Redericting to the todo viewing component
+   * @param todo A todo to review
+   */
+  review(todo: Todo): void {
+    this.router.navigate([`/todo-detail/${todo.id}`])
   }
 }

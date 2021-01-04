@@ -95,3 +95,9 @@ button.mat-icon-button {
 .badge-text {
     font-weight: normal;
 }
+
+.badge-text-completed {
+    font-weight: normal;
+    color: rgb(197, 197, 197);
+}
+

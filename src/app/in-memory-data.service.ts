@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Todo } from './todo';
-import { User } from './user';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +14,10 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 5, title: "Report working hours", dueDate: 'December 07, 2020 13:10 PM', category: 'WORK', note: 'Add hours of last week.', important: true, completed: false, userId: 1}
     ];
     const users = [
-      { id: 1, username: 'madams@gmail.com', password: 'password', firstName: 'Marc', lastName: 'Adams', authentification: false },
-      { id: 2, username: 'jmay@gmail.com', password: 'secret', firstName: 'Joey', lastName: 'May', authentification: false }
+      // password of madams@gmail.com : password
+      // password of jmay@gmail.com : secret
+      { id: 1, username: 'madams@gmail.com', password: '5f4dcc3b5aa765d61d8327deb882cf99', firstName: 'Marc', lastName: 'Adams', authentification: false },
+      { id: 2, username: 'jmay@gmail.com', password: '5ebe2294ecd0e0f08eab7690d2a6ee69', firstName: 'Joey', lastName: 'May', authentification: false }
     ];
     return {todos, users};
   }

@@ -34,10 +34,10 @@
         </div>
       </div>
       <div class="form-group row" [formGroup]="form" >
-        <label for="password" class="col-sm-2 col-form-label">ENTER NEW PASSWORD</label>
+        <label for="passwordNew" class="col-sm-2 col-form-label">ENTER NEW PASSWORD</label>
         <div class="col-sm-8">
           <div class="md-form mt-0">
-            <input type="password" class="form-control" [formControlName]="'password'" placeholder="{{getPassword()}}">
+            <input type="password" class="form-control" [formControlName]="'passwordNew'" placeholder="{{getPassword()}}">
           </div>
         </div>
       </div>
@@ -45,7 +45,7 @@
         <label for="passwordCheck" class="col-sm-2 col-form-label">REENTER NEW PASSWORD</label>
         <div class="col-sm-8">
           <div class="md-form mt-0">
-            <input type="passwordCheck" class="form-control" [formControlName]="'passwordCheck'" placeholder="{{getPassword()}}">
+            <input type="password" class="form-control" [formControlName]="'passwordCheck'" placeholder="{{getPassword()}}">
           </div>
         </div>
       </div>

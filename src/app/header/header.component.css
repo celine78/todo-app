@@ -1,5 +1,5 @@
-/* A simple, css only, (some-what) responsive menu 
-https://codepen.io/jurbank/pen/veGnb
+/*
+Menu from source: https://codepen.io/jurbank/pen/veGnb
 */
 .wrap {
     display: inline-block;
@@ -23,7 +23,6 @@ https://codepen.io/jurbank/pen/veGnb
     float: left;
   }
   
-  /* clear'n floats */
   ul:after {
     clear: both;
   }
@@ -52,7 +51,6 @@ https://codepen.io/jurbank/pen/veGnb
     border-top-left-radius: 3px;
   }
   
-  /* prime */
   ul.primary li a {
     display: inline-block;
     padding: 17px 20px;
@@ -66,7 +64,6 @@ https://codepen.io/jurbank/pen/veGnb
     color: #343a40;
   }
   
-  /* subs */
   ul.sub {
     position: absolute;
     z-index: 200;
@@ -96,13 +93,11 @@ https://codepen.io/jurbank/pen/veGnb
     background: #eeeeee;
   }
   
-  /* sub display*/
   ul.primary li:hover ul {
     display: block;
     background: #fff;
   }
   
-  /* keeps the tab background white */
   ul.primary li:hover a {
     background: #fff;
     color: #666;
@@ -115,63 +110,10 @@ https://codepen.io/jurbank/pen/veGnb
 
   .logo {
     margin-top: 10px;
-  }
-
-  .bfh_logo {
-      margin-bottom: 20px;
-  }
-
-  .footer {
-    clear: both;
-    position: sticky;
-    margin-top: 100%;
+    margin-right: none;
+    padding-right: none;
   }
 
   .pointer {
     cursor: pointer;
-  }
-  
-  @media only screen and (max-width: 600px) {
-    .decor {
-      padding: 3px;
-    }
-    
-    .wrap {
-      width: 100%;
-      margin-top: 0px;
-    }
-    
-     li {
-      float: none;
-    }
-    
-    ul.primary li:hover a {
-      background: none;
-      color: #8B8B8B;
-      text-shadow: 1px 1px #000;
-    }
-  
-    ul.primary li:hover ul {
-      display: block;
-      background: #272727;
-      color: #fff;
-    }
-    
-    ul.sub {
-      display: block;  
-      position: static;
-      box-shadow: none;
-      width: 100%;
-    }
-    
-    ul.sub li a {
-      background: #343a40;
-      border: none;
-      color: #8B8B8B;
-    }
-    
-    ul.sub li a:hover {
-      color: #ccc;
-      background: none;
-    }
   }

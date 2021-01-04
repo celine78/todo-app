@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { NGXLogger } from 'ngx-logger';
 
 @Component({
   selector: 'app-error-page',
@@ -9,12 +9,16 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ErrorPageComponent implements OnInit {
 
-  constructor(private toastr: ToastrService, private router: Router) { }
+  constructor(private router: Router, private logger: NGXLogger) { }
 
   ngOnInit(): void {
   }
 
+  /**
+   * Going back to the todos
+   */
   goHome() {
+    this.logger.debug('Rerouting from error-page to todos')
     this.router.navigate(['/todos'])
   }
 

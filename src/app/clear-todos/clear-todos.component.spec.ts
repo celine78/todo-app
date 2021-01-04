@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WaitingPageComponent } from './waiting-page.component';
+import { ClearTodosComponent } from './clear-todos.component';
 
-describe('WaitingPageComponent', () => {
-  let component: WaitingPageComponent;
-  let fixture: ComponentFixture<WaitingPageComponent>;
+describe('ClearTodosComponent', () => {
+  let component: ClearTodosComponent;
+  let fixture: ComponentFixture<ClearTodosComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WaitingPageComponent ]
+      declarations: [ ClearTodosComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WaitingPageComponent);
+    fixture = TestBed.createComponent(ClearTodosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

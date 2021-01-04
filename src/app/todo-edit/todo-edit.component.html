@@ -4,18 +4,16 @@
     <hr class="line">
 </div>
 
-<!--Check that user is logged in. Ouptut for debugging-->
-<!--<div *ngIf="checkAuth() == true">-->
-<!--<div *ngIf="todo && user">-->
-    <!--<div>{{checkTodoId()}}</div>-->
-    <div class="container bg-white border">
-        <h6 class="titel-form">Edit {{userTodo.title}}</h6>
+<div class="container bg-white border">
+    <div *ngIf="userTodo">
+        <h6 *ngIf="userTodo" class="titel-form">Edit {{userTodo.title}}</h6>
         <form class="form-template" [formGroup]="form">
             <div class="form-group row">
                 <label for="title" class="col-sm-2 col-form-label">TITLE</label>
                 <div class="col-sm-8">
                     <div class="md-form mt-0">
-                        <input type="title" class="form-control" [formControlName]="'title'" placeholder={{userTodo.title}}>
+                        <input type="title" class="form-control" [formControlName]="'title'"
+                            placeholder={{userTodo.title}}>
                     </div>
                 </div>
             </div>
@@ -51,15 +49,21 @@
                 <div class="col-sm-8">
                     <div class="md-form mt-0">
                         <label class="badge badge-secondary badge-box">
-                            <span *ngIf="userTodo.important === true" class="badge"><h5>YES</h5></span>
-                            <span *ngIf="userTodo.important === false" class="badge"><h5>NO</h5></span>
+                            <span *ngIf="userTodo.important === true" class="badge">
+                                <h5>YES</h5>
+                            </span>
+                            <span *ngIf="userTodo.important === false" class="badge">
+                                <h5>NO</h5>
+                            </span>
                         </label>
                         <label class="btn btn-secondary radio">
-                            <input type="radio" value="yes" id="important" name="important" [formControlName]="'important'">
+                            <input type="radio" value="yes" id="important" name="important"
+                                [formControlName]="'important'">
                             Yes
                         </label>
                         <label class="btn btn-secondary">
-                            <input type="radio" value="no" id="important" name="important" [formControlName]="'important'">
+                            <input type="radio" value="no" id="important" name="important"
+                                [formControlName]="'important'">
                             No
                         </label>
                     </div>
@@ -69,16 +73,18 @@
                 <label for="note" class="col-sm-2 col-form-label">NOTE</label>
                 <div class="col-sm-8">
                     <div class="md-form mt-0">
-                        <textarea type="note" class="form-control" placeholder="{{userTodo.note}}" rows="3" [formControlName]="'note'"></textarea>
+                        <textarea type="note" class="form-control" placeholder="{{userTodo.note}}" rows="3"
+                            [formControlName]="'note'"></textarea>
                     </div>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-md-8">
+                <div class="col-lg-12">
                     <button class="btn btn-outline-dark buttons-row" type="submit" (click)="goBack()">Back</button>
                     <button class="btn btn-outline-primary buttons-row" type="submit" (click)="save()">Save</button>
+                    <button class="btn btn-outline-primary buttons-row-end" type="submit" (click)="delete(userTodo)">Delete</button>
                 </div>
             </div>
         </form>
-    <!--</div>
-</div>-->
+    </div>
+</div>
