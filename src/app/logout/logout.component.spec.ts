@@ -1,4 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NGXLoggerHttpServiceMock } from 'ngx-logger/testing';
+import { NGXMapperServiceMock } from 'ngx-logger/testing';
+import { DatePipe } from '@angular/common';
+import { NGXLogger, NGXLoggerHttpService, NGXMapperService, LoggerConfig, NgxLoggerLevel } from 'ngx-logger';
 
 import { LogoutComponent } from './logout.component';
 
@@ -8,7 +13,15 @@ describe('LogoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LogoutComponent ]
+      declarations: [ LogoutComponent ],
+      imports: [RouterTestingModule],
+      providers: [
+        NGXLogger,
+        { provide: NGXLoggerHttpService, useClass: NGXLoggerHttpServiceMock },
+        { provide: NGXMapperService, useClass: NGXMapperServiceMock },
+        { provide: LoggerConfig, useValue: { level: NgxLoggerLevel.ERROR } },
+        DatePipe
+      ]
     })
     .compileComponents();
   });

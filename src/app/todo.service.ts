@@ -46,8 +46,7 @@ export class TodoService {
    */
   getTodo(id: number, url?: string): Observable<Todo> {
     const urlTodo = `${this.url}/${id}`;
-    return this.http.get<Todo>(urlTodo).pipe(catchError(this.handleError<Todo>(`getTodo id=${id}`))
-    );
+    return this.http.get<Todo>(urlTodo).pipe(catchError(this.handleError<Todo>(`getTodo id=${id}`)));
   }
 
   /**

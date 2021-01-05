@@ -33,6 +33,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +49,7 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
     ClearTodosComponent,
     RegisterComponent,
     ProfileComponent,
-    ProfileEditComponent,
+    ProfileEditComponent
   ],
   imports: [
     BrowserModule,

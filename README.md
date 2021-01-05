@@ -1,27 +1,30 @@
 # TodoApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.1.
+The TodoApp is a simple and easy to use Todo Application which allows an user to create a list of todos.
+Simplicity is the key word in this single-page application. To avoid a complex architecture, an in memory data storage has been used, only saving data during a session. After each refresh of a page, the data provided in the code is the only one surviving.
 
-## Development server
+For using the application, a user first needs to register. Once on the main page, the new todos can be added. Created ones can be edited or deleted. A user can also edit its own profile or change its password.
+<br>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Setup and Use of the TodoApp
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Clone the source code and run `npm install`, provided that npm is installed.<br>
+In order to use the application locally, run `ng serve` and navigate to `http://localhost:4200/`.
+<br>
 
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+<br>
 
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Source
+
+This application has been inspired by the Tour of Hero beginner's guide of Angular. Any further sources used during the creation of the application have been mentioned in the source code.
+
+## Credits
+
+This application has been created for the module *JavaScript Web Applications* during the Fall Term 2020 at the University of Applied Science in Berne, by Céline Hüttenmoser. Its usage is only for the purpose of this module and is not meant for any other user.

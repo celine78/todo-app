@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NGXLogger } from 'ngx-logger';
+import { throwError } from 'rxjs';
 
 import { Todo } from '../todo';
 import { TodoService } from '../todo.service'
 import { UserService } from '../user.service';
 import { User } from '../user';
-import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-todos',
@@ -39,7 +39,7 @@ export class TodosComponent implements OnInit {
    */
   async checkAuth() {
     this.users = await this.getUsers()
-    this.todos = await this.getTodos()
+    this.todos = await (await this.getTodos()).sort()
     await this.checkUsers()
     this.getUserTodos()
   }
@@ -53,7 +53,7 @@ export class TodosComponent implements OnInit {
   }
 
   /**
-   * Getting all users from memory
+   * Getting all todos from memory
    */
   getTodos() {
     return this.todoService.getTodos().toPromise().catch(error => { this.logger.error(error); return [] }
@@ -81,6 +81,7 @@ export class TodosComponent implements OnInit {
    */
   getUserTodos() {
     this.userTodos = this.todos.filter(todo => todo.userId == this.user?.id)
+    
     this.logger.info('User todos : ', this.userTodos)
   }
 
