@@ -27,4 +27,4 @@ This application has been inspired by the Tour of Hero beginner's guide of Angul
 
 ## Credits
 
-This application has been created for the module *JavaScript Web Applications* during the Fall Term 2020 at the University of Applied Science in Berne, by Céline Hüttenmoser. Its usage is only for the purpose of this module and is not meant for any other user.
+This application has been created for the module *JavaScript Web Applications* during the Fall Term 2020 at the Bern University of Applied Sciences, by Céline Hüttenmoser. Its usage is only for the purpose of this module and is not meant for any other user.
